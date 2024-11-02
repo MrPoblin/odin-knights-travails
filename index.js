@@ -48,18 +48,21 @@ function knightMoves(start, end){
         const current = queue.shift();
         const currentPos = current[0];
         let distance = current[1];
+        const previous = current[2];
+        previous.push(currentPos);
         if(currentPos[0] === end[0] && currentPos[1] === end[1]){
-            return distance;
+            return [distance, previous];
         }
         distance += 1;
         travelled.push(currentPos);
         const moves = possibleMoves(currentPos, travelled);
         moves.forEach(move => {
-            queue.push([move, distance]);
+            queue.push([move, distance, [...previous]]);
         });
     }   
 
     
 }
 
-console.log(knightMoves(startPos, endPos));
+const test = knightMoves(startPos, endPos)
+console.log(`You made it in ${test[0]} moves! Here's your path:\n${test[1].map(pos => `[${pos}]`).join(`\n`)}`);
